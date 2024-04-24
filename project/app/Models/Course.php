@@ -9,6 +9,8 @@ class Course extends Model
 {
     use HasFactory;
 
+    protected $fillable=['title','subject_id','pdf'];
+
     public function Subject(){
         return $this->belongsTo(Subject::class);
     }

@@ -21,6 +21,15 @@
             </p>
           </div>
           <button class="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">Contact</button>
+         <form action="{{route('Detud',$class->id)}}" method="post">
+          @csrf
+          <input type="hidden" name="student" value="{{$class->user->id}}">
+          <button type="submit" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-full group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+<span class="relative px-5 py-1 transition-all ease-in duration-75 bg-white text-red-500 hover:text-white rounded-full group-hover:bg-opacity-0">
+delete
+</span>
+</button>
+</form>
         </div>
       </li>
       @endforeach

@@ -244,6 +244,18 @@
     font-family: 'Montserrat', sans-serif;
   }
 </style>
+@if (session('success'))
+    
+<script>
+    Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "{{ session('success') }}",
+  showConfirmButton: false,
+  timer: 1000
+});
+</script>
+@endif
     
 
 @include('includes.footer')

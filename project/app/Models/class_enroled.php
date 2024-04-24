@@ -9,6 +9,8 @@ class class_enroled extends Model
 {
     use HasFactory;
 
+    protected $fillable=['classe_id','user_id'];
+
     public function User(){
         return $this->belongsTo(User::class);
     }

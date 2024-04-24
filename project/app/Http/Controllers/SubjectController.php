@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\class_enroled;
 use App\Models\Classe;
 use App\Models\Course;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
@@ -16,7 +18,10 @@ class SubjectController extends Controller
     public function HS($id){
         $subject=Subject::find($id);
         $classes=Classe::where('subject_id',$id)->get();
-        // dd($classes[0]->subject->level);
+        if(Auth::check()){
+        $enrolled=class_enroled::where('classe_id',$id)->where('user_id',Auth::id())->exists();
+        return view('subject.HS',compact('classes','subject','enrolled'));
+        }
         return view('subject.HS',compact('classes','subject'));
         
     }

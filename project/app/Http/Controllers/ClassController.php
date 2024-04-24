@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\class_enroled;
 use App\Models\Classe;
 use App\Models\Emploi;
 use App\Models\Subject;
@@ -51,6 +52,32 @@ class ClassController extends Controller
 
     }
 
+    public function Enroll($id){
+        $class=class_enroled::create([
+            'classe_id'=>$id,
+            'user_id'=>Auth::id()
+        ]);
+
+        if($class){
+            return redirect()->back()->with('success','you have been enrolled succssefully');
+        }else{
+            {
+                return redirect()->back()->with('error','your enrollement has met some problems please try again');
+            }
+        }
+    }
+    public function unEnroll($id){
+        $clas=class_enroled::where('classe_id',$id)
+            ->where('user_id',Auth::id())->first();
+$class=$clas->delete();
+        if($class){
+            return redirect()->back()->with('success','you have been unenrolled succssefully');
+        }else{
+            {
+                return redirect()->back()->with('error','your unenrollement has met some problems please try again');
+            }
+        }
+    }
 
    
         

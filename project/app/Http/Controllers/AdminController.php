@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Adresse;
 use App\Models\certificate;
 use App\Models\Classe;
+use App\Models\Cours;
+use App\Models\Course;
 use App\Models\School;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -137,5 +140,37 @@ class AdminController extends Controller
             }
         }
 
+    }
+
+    public function cours(){
+        $cours=Course::all();
+        $subjects=Subject::all();
+        return view('dashboard.course',compact('cours','subjects'));
+    }
+
+    public function Cstore(Request $request){
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'subject' => 'required',
+            'pdf' => 'required|mimes:pdf', // Max file size in KB (2MB)
+        ]);
+        $image = $request->file('pdf');
+        $path = $image->store("/pdf");
+        $cours=Course::create([
+            'title'=>$request->title,
+            'subject_id'=>$request->subject,
+            'pdf'=>$path
+        ]);
+        if($cours){
+            return redirect()->back()->with('success','the cours ahs been added succssefully');
+        }else{
+            {
+                return redirect()->back()->with('error','the function has met some problems please try again');
+            }
+        }
+    
+                
+          
+        
     }
 }

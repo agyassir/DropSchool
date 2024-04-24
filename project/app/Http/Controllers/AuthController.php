@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\IAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,11 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     //
+
+    private $authservice;
+    public function __construct(IAuthService $authservice) {
+        $this->authservice = $authservice;
+    }
 
     public function signupView(){
         return view('Auth.register');
@@ -27,22 +33,19 @@ class AuthController extends Controller
            'password'=>'required|string|min:8',
         ]);
 
-        $check=User::where('email',$request->email)->exists();
-        if(!$check){
+
         $password=Hash::make($request->password);
-        $register=User::create([
-            'Firstname'=>$request->fname,
-            'lastname'=>$request->lname,
-            'email'=>$request->email,
-            'password'=>$password,
-            'role' => 3,
-        ]);
+        
+            $Firstname=$request->fname;
+            $lastname=$request->lname;
+            $email=$request->email;
+            $password=$password;
+
+            $this->authservice->register($lastname,$Firstname,$email,$password);
+       return redirect()->route('login');
         return redirect('/login');
         
-        }else
-        {
-            return redirect()->back()->with('error','email already used');
-        }
+             
         
 
     }
@@ -51,15 +54,16 @@ class AuthController extends Controller
             'email'=>'required|string',
             'password'=>'required|string|min:8',
          ]);
-         if (Auth::attempt(['email'=>$request->email,'password' => $request->password,]))
-         {
-            $user = Auth::user();
-           return redirect('/')->with('success','welcome again');
-         }
-         else{
-           return redirect()->back()->with('error','you must have wronged the email or the password');
-         }
+         $email=$request->input('email');
+         $password=$request->input('password');
+
+  $login=$this->authservice->login($email,$password);
+  if($login){
+       return redirect('/')->with('success','welcome again');
+    }else{
+        return redirect('login')->with('error','email or password wrong');
     }
+}
 
     public function logout()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\class_enroled;
 use App\Models\Classe;
 use App\Models\Cours;
 use App\Models\Course;
@@ -54,5 +55,17 @@ class ProfController extends Controller
         $classe = Classe::find($id);
         $days = Date::all();
         return view('classe.classe', compact('classe', 'days'));
+    }
+
+    public function Sdelete(Request $request ,$id){
+        $student=class_enroled::where('classe_id',$id)->where('user_id',$request->student)->first();
+        $delete=$student->delete();
+        if($delete){
+            return redirect()->back()->with('success','the student has been removed succssefully');
+        }else{
+            {
+                return redirect()->back()->with('error','the student deletion has met some problems please try again');
+            }
+        }
     }
 }

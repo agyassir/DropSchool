@@ -56,8 +56,18 @@ class CourseController extends Controller
                 return redirect()->back()->with('error','the course has met some problems please try again');
             }
         }
-        dd($request);
+    }
 
-
+    public function download($id){
+        $cours=Course::find($id);
+        $filePath = public_path( $cours->pdf); // Assuming the PDF files are stored in the storage/app directory
+        
+    if (file_exists($filePath)) {
+        // Return the file with proper headers
+        return response()->download($filePath, 'filename.pdf', [], 'inline');
+    } else {
+        // Handle file not found scenario
+        abort(404);
+    }
     }
 }

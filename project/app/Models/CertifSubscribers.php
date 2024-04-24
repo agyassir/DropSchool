@@ -9,6 +9,11 @@ class CertifSubscribers extends Model
 {
     use HasFactory;
 
+    protected $fillable=['certificate_id',
+    'user_id'];
+
+    public $timestamps=false;
+
     public function certificate(){
         return $this->belongsTo(certificate::class);
     }

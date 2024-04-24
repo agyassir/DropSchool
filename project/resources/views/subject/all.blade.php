@@ -4,7 +4,7 @@
 @foreach ($courses as $course)
     
 
-    <div
+    <a href="{{route('course',$course->id)}}"
         class="col-span-4 sm:col-span-2 lg:col-span-1 relative px-5 pt-10 pb-2 flex flex-col justify-start items-center border-2 border-gray-300 rounded-xl text-gray-300 hover:bg-gray-800 hover:text-white">
         <span class="absolute -top-6 p-3 border-2 border-gray-300 rounded-full bg-gray-800">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -15,7 +15,7 @@
     </span>
         <h2 class="my-1 gradient-red text-base uppercase tracking-wide">{{$course->title}}</h2>
 
-    </div>
+    </a>
 
     @endforeach
     
